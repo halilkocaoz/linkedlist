@@ -10,8 +10,6 @@ typedef struct student
     struct student *next;
 } Student;
 
-void printStudents();
-
 Student *head = NULL;
 
 Student *prevtoCurrent = NULL;
@@ -102,6 +100,32 @@ int deleteById(int id)
             free(toBeDeleted);
         }
     }
-    
+
     return toBeDeleted->Id;
+}
+
+int length()
+{
+    int length = 0;
+    for (current = head; current != NULL; current = current->next)
+        length++;
+
+    return length;
+}
+
+void printStudents()
+{
+    current = head;
+    
+    if (current == NULL)
+        printf("Node is empty.\n\n");
+    else
+    {
+        printf("List of student(%d): \n", length());
+        while (current != NULL)
+        {
+            printf("#%d - %s\n", current->Id, current->FullName);
+            current = current->next;
+        }
+    }
 }
