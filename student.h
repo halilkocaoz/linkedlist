@@ -10,9 +10,6 @@ typedef struct student
     struct student *next;
 } Student;
 
-Student *findById(int id);
-void insertOrdered(int id, char *fullName);
-int deleteById(int id);
 void printStudents();
 
 Student *head = NULL;
@@ -73,4 +70,38 @@ void insertOrdered(int id, char *fullName)
     }
     else
         printf("No memory available to insert a new student.\n");
+}
+
+int deleteById(int id)
+{
+    Student *toBeDeleted = findById(id);
+    if (toBeDeleted == NULL)
+    {
+        return 0;
+    }
+
+    if (toBeDeleted->Id == head->Id)
+    {
+        head = toBeDeleted->next;
+        free(toBeDeleted);
+    }
+    else
+    {
+        prevtoCurrent = head;
+        current = head->next;
+        while (current != NULL && current->Id != id)
+        {
+            prevtoCurrent = current;
+            current = current->next;
+        }
+
+        if (current != NULL)
+        {
+            toBeDeleted = current;
+            prevtoCurrent->next = current->next;
+            free(toBeDeleted);
+        }
+    }
+    
+    return toBeDeleted->Id;
 }

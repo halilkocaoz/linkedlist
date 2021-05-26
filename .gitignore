@@ -8,4 +8,6 @@
 # Local History for Visual Studio Code
 .history/
 
+# Linux executable output
+*
 main
