@@ -12,12 +12,9 @@ typedef struct student
 
 Student *head = NULL;
 
-Student *prevtoCurrent = NULL;
-Student *current = NULL;
-
 Student *findById(int id)
 {
-    current = head;
+    Student *current = head;
     while (current != NULL)
     {
         if (current->Id == id)
@@ -25,7 +22,6 @@ Student *findById(int id)
 
         current = current->next;
     }
-
     return NULL;
 }
 
@@ -46,23 +42,25 @@ void insertOrdered(int id, char *fullName)
 
     if (new != NULL)
     {
+        Student *current = head;
+        Student *prev = head;
+
         new->FullName = strdup(fullName);
         new->Id = id;
-        current = head;
 
         while (current != NULL && id > current->Id)
         {
-            prevtoCurrent = current;
+            prev = current;
             current = current->next;
         }
-        if (prevtoCurrent == NULL)
+        if (prev == NULL)
         {
             new->next = head;
             head = new;
         }
         else
         {
-            prevtoCurrent->next = new;
+            prev->next = new;
             new->next = current;
         }
     }
@@ -73,6 +71,7 @@ void insertOrdered(int id, char *fullName)
 int deleteById(int id)
 {
     Student *toBeDeleted = findById(id);
+
     if (toBeDeleted == NULL)
     {
         return 0;
@@ -85,27 +84,28 @@ int deleteById(int id)
     }
     else
     {
-        prevtoCurrent = head;
-        current = head->next;
+        Student *prev = head;
+        Student *current = head->next;
         while (current != NULL && current->Id != id)
         {
-            prevtoCurrent = current;
+            prev = current;
             current = current->next;
         }
 
         if (current != NULL)
         {
             toBeDeleted = current;
-            prevtoCurrent->next = current->next;
+            prev->next = current->next;
             free(toBeDeleted);
         }
     }
 
-    return toBeDeleted->Id;
+    return id;
 }
 
 int length()
 {
+    Student *current = head;
     int length = 0;
     for (current = head; current != NULL; current = current->next)
         length++;
@@ -115,8 +115,8 @@ int length()
 
 void printStudents()
 {
-    current = head;
-    
+    Student *current = head;
+
     if (current == NULL)
         printf("Node is empty.\n\n");
     else
@@ -125,6 +125,7 @@ void printStudents()
         while (current != NULL)
         {
             printf("#%d - %s\n", current->Id, current->FullName);
+
             current = current->next;
         }
     }
