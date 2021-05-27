@@ -39,7 +39,7 @@ actionSelect:
             if (deleteById(id) > 0)
                 printf("Student(#%d) deleted.\n", id);
             else
-                printf("Not found a student with id %d\n\n", id);
+                printf("Not found a student with id %d\n", id);
         }
         else
             printf("Node is empty.\n\n");
@@ -57,7 +57,7 @@ actionSelect:
         printStudents();
         break;
     default:
-        printf("Undefined action choice. Please try again.\n");
+        printf("Undefined action choice.\n");
     }
 
     goto actionSelect;

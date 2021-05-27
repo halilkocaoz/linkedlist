@@ -25,6 +25,15 @@ Student *findById(int id)
     return NULL;
 }
 
+static void setPlace(Student *prev, Student *current, int id)
+{
+    while (current != NULL && current->Id != id)
+    {
+        prev = current;
+        current = current->next;
+    }
+}
+
 void insertOrdered(int id, char *fullName)
 {
     if (id < 1)
@@ -47,12 +56,7 @@ void insertOrdered(int id, char *fullName)
 
         new->FullName = strdup(fullName);
         new->Id = id;
-
-        while (current != NULL && id > current->Id)
-        {
-            prev = current;
-            current = current->next;
-        }
+        setPlace(prev, current, id);
         if (prev == NULL)
         {
             new->next = head;
@@ -73,9 +77,7 @@ int deleteById(int id)
     Student *toBeDeleted = findById(id);
 
     if (toBeDeleted == NULL)
-    {
         return 0;
-    }
 
     if (toBeDeleted->Id == head->Id)
     {
@@ -86,11 +88,7 @@ int deleteById(int id)
     {
         Student *prev = head;
         Student *current = head->next;
-        while (current != NULL && current->Id != id)
-        {
-            prev = current;
-            current = current->next;
-        }
+        setPlace(prev, current, id);
 
         if (current != NULL)
         {
