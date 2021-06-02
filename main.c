@@ -29,20 +29,15 @@ actionSelect:
         scanf("%d", &id);
         printf("Name surname: ");
         scanf("%s", fullName);
-        insertOrdered(id, fullName);
+        insert(id, fullName);
         break;
     case 2:
-        if (head != NULL)
-        {
-            printf("Enter a student id number to be deleted: ");
-            scanf("%d", &id);
-            if (deleteById(id) > 0)
-                printf("Student(#%d) deleted.\n", id);
-            else
-                printf("Not found a student with id %d\n", id);
-        }
+        printf("Enter a student id number to be deleted: ");
+        scanf("%d", &id);
+        if (deleteById(id) > 0)
+            printf("Student(#%d) deleted.\n", id);
         else
-            printf("Node is empty.\n\n");
+            printf("Not found a student with id %d\n", id);
         break;
     case 3:
         printf("Enter a student id number to find: ");

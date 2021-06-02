@@ -11,30 +11,32 @@ typedef struct student
 } Student;
 
 Student *head = NULL;
-
+Student *current = NULL;
+Student *prev = NULL;
 Student *findById(int id)
 {
     Student *current = head;
     while (current != NULL)
     {
         if (current->Id == id)
-            return current;
+            break;
 
         current = current->next;
     }
-    return NULL;
+
+    return current;
 }
 
-static void setPlace(Student *prev, Student *current, int id)
+void setPlace(int id)
 {
-    while (current != NULL && current->Id != id)
+    while (current != NULL && id > current->Id)
     {
         prev = current;
         current = current->next;
     }
 }
 
-void insertOrdered(int id, char *fullName)
+void insert(int id, char *fullName)
 {
     if (id < 1)
     {
@@ -46,17 +48,15 @@ void insertOrdered(int id, char *fullName)
         printf("There is already a student with student id: %d\n", id);
         return;
     }
-
+    current = head;
+    prev = NULL;
     Student *new = malloc(sizeof(Student));
 
     if (new != NULL)
     {
-        Student *current = head;
-        Student *prev = head;
-
         new->FullName = strdup(fullName);
         new->Id = id;
-        setPlace(prev, current, id);
+        setPlace(id);
         if (prev == NULL)
         {
             new->next = head;
@@ -86,9 +86,9 @@ int deleteById(int id)
     }
     else
     {
-        Student *prev = head;
-        Student *current = head->next;
-        setPlace(prev, current, id);
+        prev = head;
+        current = head->next;
+        setPlace(id);
 
         if (current != NULL)
         {
@@ -103,7 +103,7 @@ int deleteById(int id)
 
 int length()
 {
-    Student *current = head;
+    current = head;
     int length = 0;
     for (current = head; current != NULL; current = current->next)
         length++;
